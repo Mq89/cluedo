@@ -1,9 +1,15 @@
 package game;
 
+import action.Action;
+import action.ActionManager;
+import config.Config;
+import config.JSONLoader;
+import items.Item.Type;
 import items.ItemManager;
 import players.Player;
 import players.PlayerManager;
-import util.PlayerString;
+import util.GameStateToString;
+import util.PlayerToString;
 
 public class GameManager {
 
@@ -11,11 +17,14 @@ public class GameManager {
 
 	private PlayerManager pm;
 	private ItemManager im;
+	private ActionManager am;
 
 	private GameManager() {
 
 		pm = PlayerManager.getInstance();
 		im = ItemManager.getInstance();
+		am = ActionManager.getInstance();
+
 	}
 
 	public void init() {
@@ -27,31 +36,53 @@ public class GameManager {
 		pm.addPlayer(new Player("p3"));
 
 		// init items
-		im.addSuspectsFromString("s0", "s1", "s2", "s3", "s4");
-		im.addRoomsFromString("r0", "r1", "r2", "r3", "r4");
-		im.addWeaponsFromString("w0", "w1", "w2", "w3", "w4");
+
+		Config config = new JSONLoader("config/config.json");
+		config.load();
+
+		im.addSuspectsFromString(config.getSuspects());
+		im.addRoomsFromString(config.getRooms());
+		im.addWeaponsFromString(config.getWeapons());
 
 		// draw my (p0) cards
-		pm.addHasCard(p0, im.getSuspect("s0"));
-		pm.addHasCard(p0, im.getRoom("r0"));
-		pm.addHasCard(p0, im.getWeapon("w0"));
+		pm.addHasItemTo(p0, im.getSuspect("s0"));
+		pm.addHasItemTo(p0, im.getRoom("r0"));
+		pm.addHasItemTo(p0, im.getWeapon("w0"));
 
-		p0.getSuspectManager().addHasNotCard(im.getSuspect("s1"));
-		p0.getSuspectManager().addHasNotCard(im.getSuspect("s2"));
-		p0.getSuspectManager().addHasNotCard(im.getSuspect("s3"));
-		p0.getSuspectManager().addHasNotCard(im.getSuspect("s4"));
+		p0.addHasNotItem(im.getSuspect("s1"));
+		p0.addHasNotItem(im.getSuspect("s2"));
+		p0.addHasNotItem(im.getSuspect("s3"));
+		p0.addHasNotItem(im.getSuspect("s4"));
 
-		p0.getRoomManager().addHasNotCard(im.getRoom("r1"));
-		p0.getRoomManager().addHasNotCard(im.getRoom("r2"));
-		p0.getRoomManager().addHasNotCard(im.getRoom("r3"));
-		p0.getRoomManager().addHasNotCard(im.getRoom("r4"));
+		p0.addHasNotItem(im.getRoom("r1"));
+		p0.addHasNotItem(im.getRoom("r2"));
+		p0.addHasNotItem(im.getRoom("r3"));
+		p0.addHasNotItem(im.getRoom("r4"));
 
-		p0.getWeaponManager().addHasNotCard(im.getWeapon("w1"));
-		p0.getWeaponManager().addHasNotCard(im.getWeapon("w2"));
-		p0.getWeaponManager().addHasNotCard(im.getWeapon("w3"));
-		p0.getWeaponManager().addHasNotCard(im.getWeapon("w4"));
+		p0.addHasNotItem(im.getWeapon("w1"));
+		p0.addHasNotItem(im.getWeapon("w2"));
+		p0.addHasNotItem(im.getWeapon("w3"));
+		p0.addHasNotItem(im.getWeapon("w4"));
 
-		System.out.println(new PlayerString(p0));
+		System.out.println(new PlayerToString(p0));
+
+		System.out.println(new GameStateToString());
+
+	}
+
+	public void play() {
+		am.processAction(new Action(pm.getPlayer(1), im.getSuspect("s2"), im.getRoom("r0"), im.getWeapon("w3"),
+				pm.getPlayer(2), null));
+		am.processAction(new Action(pm.getPlayer(0), im.getSuspect("s0"), im.getRoom("r0"), im.getWeapon("w1"),
+				pm.getPlayer(1), Type.WEAPON));
+		am.processAction(new Action(pm.getPlayer(0), im.getSuspect("s3"), im.getRoom("r3"), im.getWeapon("w2"),
+				pm.getPlayer(2), Type.WEAPON));
+		am.processAction(new Action(pm.getPlayer(0), im.getSuspect("s0"), im.getRoom("r0"), im.getWeapon("w3"),
+				pm.getPlayer(3), Type.WEAPON));
+
+		System.out.println(new PlayerToString(pm.getPlayer(1)));
+		System.out.println(new PlayerToString(pm.getPlayer(2)));
+		System.out.println(new GameStateToString());
 
 	}
 
@@ -69,6 +100,7 @@ public class GameManager {
 	public static void main(String[] args) {
 		GameManager gm = GameManager.getInstance();
 		gm.init();
+		gm.play();
 
 	}
 }
