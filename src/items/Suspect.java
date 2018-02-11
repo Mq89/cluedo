@@ -6,4 +6,9 @@ public class Suspect extends Item {
 		super(name);
 	}
 
+	@Override
+	public int compareTo(Item o) {
+		return getName().compareTo(o.getName());
+	}
+
 }
