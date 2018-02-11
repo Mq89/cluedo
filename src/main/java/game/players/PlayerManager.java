@@ -1,17 +1,17 @@
-package players;
+package game.players;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
-import items.Item;
-import items.ItemManager;
-import items.Room;
-import items.Suspect;
-import items.Weapon;
+import game.items.Item;
+import game.items.ItemManager;
+import game.items.Room;
+import game.items.Suspect;
+import game.items.Weapon;
+import game.players.Player.State;
 import lombok.Getter;
-import players.Player.State;
 
 /**
  * Singleton managing the players of the game.

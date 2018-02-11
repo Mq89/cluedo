@@ -1,11 +1,11 @@
-package action;
+package game.action;
 
-import items.Item;
-import items.Room;
-import items.Suspect;
-import items.Weapon;
+import game.items.Item;
+import game.items.Room;
+import game.items.Suspect;
+import game.items.Weapon;
+import game.players.Player;
 import lombok.Getter;
-import players.Player;
 
 /**
  * Class modeling one action (one move) of the game.

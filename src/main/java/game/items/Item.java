@@ -1,4 +1,4 @@
-package items;
+package game.items;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

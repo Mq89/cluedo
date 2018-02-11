@@ -1,4 +1,4 @@
-package items;
+package game.items;
 
 public class Room extends Item {
 

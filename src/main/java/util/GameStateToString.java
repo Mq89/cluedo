@@ -1,9 +1,9 @@
 package util;
 
-import items.Room;
-import items.Suspect;
-import items.Weapon;
-import players.PlayerManager;
+import game.items.Room;
+import game.items.Suspect;
+import game.items.Weapon;
+import game.players.PlayerManager;
 
 /**
  * Class for prettyprinting the game state in a string.

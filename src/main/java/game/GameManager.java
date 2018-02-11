@@ -1,13 +1,13 @@
 package game;
 
-import action.Action;
-import action.ActionManager;
 import config.Config;
 import config.JSONLoader;
-import items.Item.Type;
-import items.ItemManager;
-import players.Player;
-import players.PlayerManager;
+import game.action.Action;
+import game.action.ActionManager;
+import game.items.ItemManager;
+import game.items.Item.Type;
+import game.players.Player;
+import game.players.PlayerManager;
 import util.GameStateToString;
 import util.PlayerToString;
 

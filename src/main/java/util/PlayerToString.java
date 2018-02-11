@@ -1,10 +1,10 @@
 package util;
 
-import items.Room;
-import items.Suspect;
-import items.Weapon;
-import players.Player;
-import players.Player.State;
+import game.items.Room;
+import game.items.Suspect;
+import game.items.Weapon;
+import game.players.Player;
+import game.players.Player.State;
 
 /**
  * Class for prettyprinting the state of a player to a string.

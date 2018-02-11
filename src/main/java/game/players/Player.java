@@ -1,14 +1,14 @@
-package players;
+package game.players;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import items.Item;
-import items.Item.Type;
-import items.Room;
-import items.Suspect;
-import items.Weapon;
+import game.items.Item;
+import game.items.Room;
+import game.items.Suspect;
+import game.items.Weapon;
+import game.items.Item.Type;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 

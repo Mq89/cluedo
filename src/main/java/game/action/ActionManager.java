@@ -1,10 +1,10 @@
-package action;
+package game.action;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import players.Player;
-import players.PlayerManager;
+import game.players.Player;
+import game.players.PlayerManager;
 
 /**
  * Singleton managing the actions performed during the game. Contains the logic
