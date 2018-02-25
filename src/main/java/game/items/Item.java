@@ -29,6 +29,20 @@ public abstract class Item implements Comparable<Item> {
 	}
 
 	public static enum Type {
-		SUSPECT, ROOM, WEAPON;
+		SUSPECT,  WEAPON,ROOM;
+
+		@Override
+		public String toString() {
+			switch (this) {
+			case SUSPECT:
+				return "Verdächtiger";
+			case WEAPON:
+				return "Tatwaffe";
+			case ROOM:
+				return "Tatort";
+			default:
+				return "---";
+			}
+		}
 	}
 }

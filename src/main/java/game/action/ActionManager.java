@@ -3,8 +3,11 @@ package game.action;
 import java.util.LinkedList;
 import java.util.List;
 
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.EventList;
 import game.players.Player;
 import game.players.PlayerManager;
+import lombok.Getter;
 
 /**
  * Singleton managing the actions performed during the game. Contains the logic
@@ -20,7 +23,8 @@ public class ActionManager {
 	/**
 	 * List of all performed actions (turns).
 	 */
-	private List<Action> history;
+	@Getter
+	private EventList<Action> history;
 
 	/**
 	 * List of actions where no information could be deduced from and can be
@@ -29,7 +33,7 @@ public class ActionManager {
 	private List<Action> reprocess;
 
 	private ActionManager() {
-		history = new LinkedList<>();
+		history = new BasicEventList<>();
 		reprocess = new LinkedList<>();
 	}
 

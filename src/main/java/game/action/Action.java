@@ -14,6 +14,14 @@ import lombok.Getter;
  *
  */
 public class Action {
+	
+	private static int COUNT = 1;
+	
+	/**
+	 * The ID of the action.
+	 */
+	@Getter
+	private int id;
 
 	/**
 	 * The player making the move.
@@ -53,6 +61,7 @@ public class Action {
 	private Item.Type which;
 
 	public Action(Player move, Suspect suspect, Room room, Weapon weapon, Player confirm, Item.Type which) {
+		this.id = COUNT++;
 		this.move = move;
 		this.suspect = suspect;
 		this.room = room;

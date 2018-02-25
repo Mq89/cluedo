@@ -8,15 +8,18 @@ import game.items.ItemManager;
 import game.items.Item.Type;
 import game.players.Player;
 import game.players.PlayerManager;
+import lombok.Getter;
 import util.GameStateToString;
 import util.PlayerToString;
 
 public class GameManager {
 
 	private static GameManager instance;
-
+	@Getter
 	private PlayerManager pm;
+	@Getter
 	private ItemManager im;
+	@Getter
 	private ActionManager am;
 
 	private GameManager() {
@@ -28,6 +31,24 @@ public class GameManager {
 	}
 
 	public void init() {
+
+		Config config = new JSONLoader("config/config2.json");
+		config.load();
+
+		im.addSuspectsFromString(config.getSuspects());
+		im.addRoomsFromString(config.getRooms());
+		im.addWeaponsFromString(config.getWeapons());
+		im.finalize();
+	}
+
+	public void addFakePlayers() {
+		pm.addPlayer(new Player("p0"));
+		pm.addPlayer(new Player("p1"));
+		pm.addPlayer(new Player("p2"));
+		pm.addPlayer(new Player("p3"));
+	}
+
+	public void doStuff() {
 		// init players
 		Player p0;
 		pm.addPlayer(p0 = new Player("p0"));

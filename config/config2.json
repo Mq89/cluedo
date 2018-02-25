@@ -1,0 +1,40 @@
+{
+    "game": {
+        "suspects": [
+            "Oberst von Gatow",
+            "Professor Bloom",
+            "Reverend Grün",
+            "Baronin von Porz",
+            "Fräulein Gloria",
+            "Frau Weiß",
+            "Madame Mystique",
+            "Lady Sarah",
+            "Inspektor Klein",
+            "Herr Braun"
+        ],
+        "weapons": [
+            "Dolch",
+            "Leuchter",
+            "Pistole",
+            "Seil",
+            "Heizungsrohr",
+            "Rohrzange",
+            "Giftflasche",
+            "Hufeisen"
+        ],
+        "rooms": [
+            "Garten",
+            "Pavillon",
+            "Lounge",
+            "Speisezimmer",
+            "Küche",
+            "Stallungen",
+            "Salon",
+            "Wintergarten",
+            "Billardzimmer",
+            "Bibliothek",
+            "Springbrunnen",
+            "Arbeitszimmer"
+        ]        
+    }
+}

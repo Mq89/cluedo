@@ -1,7 +1,6 @@
 package game.players;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +21,9 @@ import lombok.Getter;
 public class PlayerManager {
 
 	private static PlayerManager instance;
+
+	@Getter
+	private Player myself;
 
 	/**
 	 * List of players.
@@ -47,7 +49,21 @@ public class PlayerManager {
 	 */
 	public void addPlayer(Player p) {
 		players.add(p);
+		if (myself == null) {
+			myself = p;
+		}
 		playerMap.put(p.getName(), p);
+	}
+
+	/**
+	 * Create a player by name and add it to the Player Manager
+	 * 
+	 * @param name
+	 *            The name of the player
+	 */
+	public void addPlayer(String name) {
+		addPlayer(new Player(name));
+
 	}
 
 	/**
@@ -117,8 +133,8 @@ public class PlayerManager {
 	 * 
 	 * @return The list of suspects.
 	 */
-	public HashSet<Suspect> getUnkownSuspects() {
-		HashSet<Suspect> suspects = ItemManager.getInstance().getSuspects();
+	public List<Suspect> getUnkownSuspects() {
+		List<Suspect> suspects = ItemManager.getInstance().getSuspectsList();
 		for (Player p : players) {
 			for (Suspect s : p.getSuspects(State.HAS)) {
 				suspects.remove(s);
@@ -132,8 +148,8 @@ public class PlayerManager {
 	 * 
 	 * @return The list of rooms.
 	 */
-	public HashSet<Room> getUnkownRooms() {
-		HashSet<Room> rooms = ItemManager.getInstance().getRooms();
+	public List<Room> getUnkownRooms() {
+		List<Room> rooms = ItemManager.getInstance().getRoomsList();
 		for (Player p : players) {
 			for (Room s : p.getRooms(State.HAS)) {
 				rooms.remove(s);
@@ -147,8 +163,8 @@ public class PlayerManager {
 	 * 
 	 * @return The list of weapons.
 	 */
-	public HashSet<Weapon> getUnkownWeapons() {
-		HashSet<Weapon> weapons = ItemManager.getInstance().getWeapons();
+	public List<Weapon> getUnkownWeapons() {
+		List<Weapon> weapons = ItemManager.getInstance().getWeaponsList();
 		for (Player p : players) {
 			for (Weapon s : p.getWeapons(State.HAS)) {
 				weapons.remove(s);

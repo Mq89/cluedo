@@ -1,8 +1,11 @@
 package game.items;
 
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
+
+import lombok.Getter;
 
 /**
  * Singleton managing all available items of the game. Items are
@@ -19,25 +22,45 @@ public class ItemManager {
 
 	private static ItemManager instance;
 
+	private boolean finalized = false;
+
 	/**
 	 * The suspects.
 	 */
-	private HashMap<String, Suspect> suspects;
-
-	/**
-	 * The rooms.
-	 */
-	private HashMap<String, Room> rooms;
+	@Getter
+	private HashMap<String, Suspect> suspectsMap;
+	@Getter
+	private Vector<Suspect> suspectsVector;
+	@Getter
+	private List<Suspect> suspectsList;
 
 	/**
 	 * The weapons.
 	 */
-	private HashMap<String, Weapon> weapons;
+	@Getter
+	private HashMap<String, Weapon> weaponsMap;
+	@Getter
+	private Vector<Weapon> weaponsVector;
+	@Getter
+	private List<Weapon> weaponsList;
+
+	/**
+	 * The rooms.
+	 */
+	@Getter
+	private HashMap<String, Room> roomsMap;
+	@Getter
+	private Vector<Room> roomsVector;
+	@Getter
+	private List<Room> roomsList;
+
+	@Getter
+	private List<Item> items;
 
 	private ItemManager() {
-		suspects = new HashMap<>();
-		weapons = new HashMap<>();
-		rooms = new HashMap<>();
+		suspectsMap = new HashMap<>();
+		weaponsMap = new HashMap<>();
+		roomsMap = new HashMap<>();
 	}
 
 	/**
@@ -47,8 +70,11 @@ public class ItemManager {
 	 *            List of names of suspects.
 	 */
 	public void addSuspectsFromString(List<String> suspects) {
+		if (finalized) {
+			throw new IllegalStateException("Method must not be called after class has been finalized.");
+		}
 		for (String s : suspects) {
-			this.suspects.put(s, new Suspect(s));
+			this.suspectsMap.put(s, new Suspect(s));
 		}
 	}
 
@@ -60,61 +86,21 @@ public class ItemManager {
 	 * @return The object of the suspect. Null if name does not exist.
 	 */
 	public Suspect getSuspect(String name) {
-		return suspects.get(name);
-	}
-
-	/**
-	 * 
-	 * @return The set of all available suspects.
-	 */
-	public HashSet<Suspect> getSuspects() {
-		HashSet<Suspect> result = new HashSet<>();
-		result.addAll(suspects.values());
-		return result;
-	}
-
-	/**
-	 * Creates the rooms from a list of strings which should contain the names.
-	 * 
-	 * @param suspects
-	 *            List of names of rooms.
-	 */
-	public void addRoomsFromString(List<String> rooms) {
-		for (String r : rooms) {
-			this.rooms.put(r, new Room(r));
-		}
-	}
-
-	/**
-	 * Find a room object by name.
-	 * 
-	 * @param name
-	 *            Name of the room.
-	 * @return The object of the room. Null if name does not exist.
-	 */
-	public Room getRoom(String name) {
-		return rooms.get(name);
-	}
-
-	/**
-	 * 
-	 * @return The set of all available rooms.
-	 */
-	public HashSet<Room> getRooms() {
-		HashSet<Room> result = new HashSet<>();
-		result.addAll(rooms.values());
-		return result;
+		return suspectsMap.get(name);
 	}
 
 	/**
 	 * Creates the weapons from a list of strings which should contain the names.
 	 * 
-	 * @param suspects
+	 * @param suspectsMap
 	 *            List of names of weapons.
 	 */
 	public void addWeaponsFromString(List<String> weapons) {
+		if (finalized) {
+			throw new IllegalStateException("Method must not be called after class has been finalized.");
+		}
 		for (String w : weapons) {
-			this.weapons.put(w, new Weapon(w));
+			this.weaponsMap.put(w, new Weapon(w));
 		}
 	}
 
@@ -126,17 +112,62 @@ public class ItemManager {
 	 * @return The object of the weapon. Null if name does not exist.
 	 */
 	public Weapon getWeapon(String name) {
-		return weapons.get(name);
+		return weaponsMap.get(name);
 	}
 
 	/**
+	 * Creates the rooms from a list of strings which should contain the names.
 	 * 
-	 * @return The set of all available weapons.
+	 * @param suspectsMap
+	 *            List of names of rooms.
 	 */
-	public HashSet<Weapon> getWeapons() {
-		HashSet<Weapon> result = new HashSet<>();
-		result.addAll(weapons.values());
-		return result;
+	public void addRoomsFromString(List<String> rooms) {
+		if (finalized) {
+			throw new IllegalStateException("Method must not be called after class has been finalized.");
+		}
+		for (String r : rooms) {
+			this.roomsMap.put(r, new Room(r));
+		}
+	}
+
+	/**
+	 * Find a room object by name.
+	 * 
+	 * @param name
+	 *            Name of the room.
+	 * @return The object of the room. Null if name does not exist.
+	 */
+	public Room getRoom(String name) {
+		return roomsMap.get(name);
+	}
+
+	/**
+	 * Call after adding of items has been finished. Creates complementary data
+	 * structures for items. Do not add items after calling finalize anymore.
+	 */
+	public void finalize() {
+		finalized = true;
+
+		suspectsVector = new Vector<>(suspectsMap.values());
+		suspectsVector.sort(null);
+		suspectsList = new LinkedList<>(suspectsMap.values());
+		suspectsList.sort(null);
+
+		weaponsVector = new Vector<>(weaponsMap.values());
+		weaponsVector.sort(null);
+		weaponsList = new LinkedList<>(weaponsMap.values());
+		weaponsList.sort(null);
+
+		roomsVector = new Vector<>(roomsMap.values());
+		roomsVector.sort(null);
+		roomsList = new LinkedList<>(roomsMap.values());
+		roomsList.sort(null);
+
+		items = new LinkedList<>();
+		items.addAll(suspectsList);
+		items.addAll(weaponsList);
+		items.addAll(roomsList);
+
 	}
 
 	public static ItemManager getInstance() {

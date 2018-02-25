@@ -149,13 +149,35 @@ public class Player {
 		return list;
 	}
 
+	public State getItemState(Item i) {
+		if (items.containsKey(i)) {
+			return items.get(i);
+		} else {
+			return State.UNKOWN;
+		}
+	}
+
 	@Override
 	public String toString() {
 		return name;
 	}
 
 	public static enum State {
-		HAS, HAS_NOT, UNKOWN
+		HAS, HAS_NOT, UNKOWN;
+
+		@Override
+		public String toString() {
+			switch (this) {
+			case HAS:
+				return "ja";
+			case HAS_NOT:
+				return "nein";
+			case UNKOWN:
+				return "?";
+			default:
+				return "---";
+			}
+		}
 	}
 
 }
