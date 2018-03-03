@@ -1,9 +1,10 @@
 package game.players;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
+import ca.odell.glazedlists.BasicEventList;
+import ca.odell.glazedlists.EventList;
 import game.items.Item;
 import game.items.ItemManager;
 import game.items.Room;
@@ -29,7 +30,7 @@ public class PlayerManager {
 	 * List of players.
 	 */
 	@Getter
-	private List<Player> players;
+	private EventList<Player> players;
 
 	/**
 	 * Map of players to find the by name faster.
@@ -37,7 +38,7 @@ public class PlayerManager {
 	private HashMap<String, Player> playerMap;
 
 	private PlayerManager() {
-		this.players = new LinkedList<>();
+		this.players = new BasicEventList<>();
 		this.playerMap = new HashMap<>();
 	}
 

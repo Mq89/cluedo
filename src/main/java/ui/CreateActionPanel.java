@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 
+import ca.odell.glazedlists.swing.DefaultEventComboBoxModel;
 import game.GameManager;
 import game.action.Action;
 import game.items.Item;
@@ -31,8 +32,9 @@ public class CreateActionPanel extends JPanel implements ActionListener {
 
 	private JButton submit;
 
+	@SuppressWarnings("unchecked")
 	public CreateActionPanel() {
-		move = new JComboBox<>(new Vector<>(GameManager.getInstance().getPm().getPlayers()));
+		move = new JComboBox<>(new DefaultEventComboBoxModel<>(GameManager.getInstance().getPm().getPlayers()));
 		move.addActionListener(this);
 		suspect = new JComboBox<Suspect>(GameManager.getInstance().getIm().getSuspectsVector());
 		weapon = new JComboBox<Weapon>(GameManager.getInstance().getIm().getWeaponsVector());
@@ -88,5 +90,4 @@ public class CreateActionPanel extends JPanel implements ActionListener {
 		}
 
 	}
-
 }
