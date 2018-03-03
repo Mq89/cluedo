@@ -1,6 +1,10 @@
 package ui;
 
-import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -30,7 +34,7 @@ public class PlayerPanel extends JPanel implements ActionListener {
 	public PlayerPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-		JPanel panel = new JPanel(new BorderLayout());
+		JPanel panel = new JPanel(new CenteredLayoutManager());
 
 		tableModel = new PlayerTableModel(GameManager.getInstance().getPm().getPlayers());
 
@@ -93,6 +97,57 @@ public class PlayerPanel extends JPanel implements ActionListener {
 				return GameManager.getInstance().getPm().getMyself().equals(p) ? "ja" : "nein";
 			default:
 				return "--";
+			}
+		}
+
+	}
+
+	private static class CenteredLayoutManager implements LayoutManager {
+
+		@Override
+		public void addLayoutComponent(String name, Component comp) {
+			// nothing
+
+		}
+
+		@Override
+		public void removeLayoutComponent(Component comp) {
+			// nothing
+
+		}
+
+		@Override
+		public Dimension preferredLayoutSize(Container parent) {
+			return calculateSize(parent);
+		}
+
+		@Override
+		public Dimension minimumLayoutSize(Container parent) {
+			return calculateSize(parent);
+		}
+
+		private Dimension calculateSize(Container parent) {
+			Insets insets = parent.getInsets();
+			int width = 0;
+			int height = 0;
+			for (Component c : parent.getComponents()) {
+				width += c.getPreferredSize().width;
+				height = Math.max(height, c.getPreferredSize().height);
+			}
+
+			return new Dimension(insets.left + width + insets.right, insets.top + height + insets.bottom);
+		}
+
+		@Override
+		public void layoutContainer(Container parent) {
+			Dimension size = calculateSize(parent);
+			int freeWidth = parent.getWidth() - size.width;
+			Insets insets = parent.getInsets();
+			int x = freeWidth/2;
+			for (Component c : parent.getComponents()) {
+				c.setBounds(x, insets.top, c.getPreferredSize().width, parent.getHeight());
+				System.out.println(parent.getHeight());
+				x += c.getPreferredSize().width;
 			}
 		}
 
