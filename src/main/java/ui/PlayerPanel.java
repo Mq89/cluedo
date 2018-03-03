@@ -1,10 +1,10 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -30,22 +30,19 @@ public class PlayerPanel extends JPanel implements ActionListener {
 	public PlayerPanel() {
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
-		JPanel panel = new JPanel();
+		JPanel panel = new JPanel(new BorderLayout());
 
 		tableModel = new PlayerTableModel(GameManager.getInstance().getPm().getPlayers());
-		JTable table;
-		panel.add(new JScrollPane(table = new JTable(tableModel)));
-		table.setPreferredScrollableViewportSize(table.getPreferredSize());
+
+		panel.add(new JScrollPane(new JTable(tableModel)));
 		add(panel);
 
 		panel = new JPanel();
 		panel.add(playerName);
 		panel.add(createPlayer);
+		createPlayer.addActionListener(this);
 		add(panel);
 
-		add(Box.createVerticalGlue());
-		// add button
-		createPlayer.addActionListener(this);
 	}
 
 	@Override

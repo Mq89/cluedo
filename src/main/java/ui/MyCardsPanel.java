@@ -39,7 +39,6 @@ public class MyCardsPanel extends JPanel implements ActionListener {
 		JPanel panel = new JPanel();
 		panel.add(new JScrollPane(suspectTable = new JTable(suspectTableModel = new ItemTableModel("Verdächtige",
 				GameManager.getInstance().getIm().getSuspectsList()))));
-		suspectTable.getColumnModel().getColumn(1).setPreferredWidth(10);
 		panel.add(new JScrollPane(weaponTable = new JTable(
 				weaponTableModel = new ItemTableModel("Waffen", GameManager.getInstance().getIm().getWeaponsList()))));
 		panel.add(new JScrollPane(roomTable = new JTable(
