@@ -2,12 +2,14 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Comparator;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import ca.odell.glazedlists.SortedList;
 import ca.odell.glazedlists.gui.TableFormat;
 import ca.odell.glazedlists.swing.DefaultEventTableModel;
 import game.GameManager;
@@ -27,7 +29,13 @@ public class ActionsPanel extends JPanel {
 		JPanel panel = new JPanel(new BorderLayout());
 		JTable table;
 		panel.add(new JScrollPane(
-				table = new JTable(new DefaultEventTableModel<Action>(GameManager.getInstance().getAm().getHistory(),
+				table = new JTable(new DefaultEventTableModel<Action>(new SortedList<Action>(GameManager.getInstance().getAm().getHistory(), new Comparator<Action>() {
+
+					@Override
+					public int compare(Action o1, Action o2) {
+						return Integer.compare(o2.getId(), o1.getId());
+					}
+				}),
 						new ActionTableFormat()))));
 		table.getColumnModel().getColumn(0).setPreferredWidth(40);
 		table.getColumnModel().getColumn(1).setPreferredWidth(200);

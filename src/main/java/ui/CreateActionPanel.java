@@ -7,6 +7,7 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import ca.odell.glazedlists.swing.DefaultEventComboBoxModel;
 import game.GameManager;
@@ -34,6 +35,7 @@ public class CreateActionPanel extends JPanel implements ActionListener {
 
 	@SuppressWarnings("unchecked")
 	public CreateActionPanel() {
+		setBorder(new EmptyBorder(30, 10, 30, 10));
 		move = new JComboBox<>(new DefaultEventComboBoxModel<>(GameManager.getInstance().getPm().getPlayers()));
 		move.addActionListener(this);
 		suspect = new JComboBox<Suspect>(GameManager.getInstance().getIm().getSuspectsVector());
@@ -42,6 +44,7 @@ public class CreateActionPanel extends JPanel implements ActionListener {
 
 		confirm = new JComboBox<>();
 		fillConfirm();
+		confirm.addActionListener(this);
 
 		Vector<Item.Type> types = new Vector<>();
 		types.add(null);
@@ -52,6 +55,9 @@ public class CreateActionPanel extends JPanel implements ActionListener {
 
 		submit = new JButton("+");
 		submit.addActionListener(this);
+		
+
+		move.setSelectedIndex(0);
 
 		add(move);
 		add(suspect);
@@ -85,8 +91,12 @@ public class CreateActionPanel extends JPanel implements ActionListener {
 					(Player) confirm.getSelectedItem(), (Item.Type) which.getSelectedItem());
 			GameManager.getInstance().getAm().processAction(a);
 			move.setSelectedIndex((move.getSelectedIndex() + 1) % move.getItemCount());
+			which.setSelectedIndex(0);
 		} else if (e.getSource() == move) {
 			fillConfirm();
+		} else if (e.getSource() == move || e.getSource() == confirm) {
+			Player myself = GameManager.getInstance().getPm().getMyself();
+			which.setEnabled(confirm.getSelectedItem() != null && move.getSelectedItem().equals(myself) || myself.equals(confirm.getSelectedItem()));
 		}
 
 	}
